@@ -1,0 +1,43 @@
+{
+  "name": "memory-leak-heapdump",
+  "version": "0.0.1",
+  "description": "do heapdump when memory leak",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wz2cool/memory-leak-heapdump.git"
+  },
+  "keywords": [
+    "heapdump"
+  ],
+  "author": "wz2cool",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wz2cool/memory-leak-heapdump/issues"
+  },
+  "homepage": "https://github.com/wz2cool/memory-leak-heapdump#readme",
+  "dependencies": {
+    "heapdump": "^0.3.9",
+    "lodash": "^4.17.4",
+    "memwatch-next": "^0.3.0",
+    "mkdirp": "^0.5.1",
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.3",
+    "typescript-eslint-parser": "^8.0.0",
+    "util": "^0.10.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/memwatch-next": "^0.3.1",
+    "@types/mkdirp": "^0.5.1",
+    "@types/mocha": "^2.2.43",
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3"
+  }
+}
