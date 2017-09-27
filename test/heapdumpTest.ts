@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import * as fs from "fs";
 import * as mkdirp from "mkdirp";
 import * as os from "os";
 import * as path from "path";
@@ -69,5 +70,22 @@ describe("#dumpFile", () => {
     console.log("dumpDir:", dumpDir);
     console.log("filepath", filepath);
 
- 
+    it("should have dump file", (done) => {
+        rimraf(dumpDir, (err) => {
+            if (util.isNullOrUndefined(err)) {
+                Heapdump.dumpFile(filepath)
+                    .then((dumpFilepath) => {
+                        if (fs.existsSync(dumpFilepath)) {
+                            done();
+                        } else {
+                            done("file not found");
+                        }
+                    }).catch((error) => {
+                        done(error);
+                    });
+            } else {
+                done(err);
+            }
+        });
+    });
 });
