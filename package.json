@@ -33,8 +33,10 @@
     "@types/mkdirp": "^0.5.1",
     "@types/mocha": "^2.2.43",
     "@types/q": "^1.0.5",
+    "@types/rimraf": "^2.0.2",
     "chai": "^4.1.2",
     "mocha": "^3.5.3",
+    "rimraf": "^2.6.2",
     "tslint": "^5.7.0",
     "typescript": "^2.5.3"
   }
