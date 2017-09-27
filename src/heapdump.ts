@@ -9,6 +9,11 @@ export class Heapdump {
     public static dumpFile(filepath: string): Promise<string> {
         const dir = path.dirname(filepath);
         const deferred = q.defer<string>();
+        const wait = setTimeout(() => {
+            clearTimeout(wait);
+            deferred.reject(new Error("timeout"));
+        }, 1000);
+
         this.createDirIfNotExists(dir)
             .then((createNew) => {
                 heapdump.writeSnapshot(filepath, (err) => {
@@ -26,6 +31,11 @@ export class Heapdump {
 
     private static createDirIfNotExists(dirpath: string): Promise<boolean> {
         const deferred = q.defer<boolean>();
+        const wait = setTimeout(() => {
+            clearTimeout(wait);
+            deferred.reject(new Error("timeout"));
+        }, 1000);
+
         if (fs.existsSync(dirpath)) {
             deferred.resolve(false);
         } else {
@@ -34,6 +44,7 @@ export class Heapdump {
                     // create dir success.
                     deferred.resolve(true);
                 } else {
+                    console.log("should rejedct");
                     deferred.reject(err);
                 }
             });
