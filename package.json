@@ -4,11 +4,9 @@
   "description": "do heapdump when memory leak",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "test": "mocha"
+    "pretest": "tsc -p tsconfig.test.json",
+    "test": "mocha dist/test --recursive"
   },
   "repository": {
     "type": "git",
@@ -20,18 +18,22 @@
     "url": "https://github.com/wz2cool/memory-leak-heapdump/issues"
   },
   "homepage": "https://github.com/wz2cool/memory-leak-heapdump#readme",
-  "devDependencies": {
-    "@types/memwatch-next": "^0.3.1",
-    "@types/mkdirp": "^0.5.1",
-    "@types/q": "^1.0.5",
-    "tslint": "^5.7.0",
-    "typescript": "^2.5.3"
-  },
   "dependencies": {
     "heapdump": "^0.3.9",
     "memwatch-next": "^0.3.0",
     "mkdirp": "^0.5.1",
     "q": "^1.5.0",
     "util": "^0.10.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/memwatch-next": "^0.3.1",
+    "@types/mkdirp": "^0.5.1",
+    "@types/mocha": "^2.2.43",
+    "@types/q": "^1.0.5",
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3",
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.3"
   }
 }

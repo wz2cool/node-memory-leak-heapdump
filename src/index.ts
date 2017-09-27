@@ -1,1 +1,1 @@
-export { HelloWorld } from "./hello";
+export { Heapdump } from "./heapdump";
