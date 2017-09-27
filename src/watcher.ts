@@ -14,6 +14,16 @@ export class Watcher {
         this.isWatched = false;
     }
 
+    public DumpFile(cb: (err: Error, dumpFilepath: string) => void): void {
+        const filepath = this.generateDumpFilepath(this.config.appName, this.config.dumpDir);
+        const result = Heapdump.dumpFile(filepath);
+        result.then((dumpFile) => {
+            cb(null, dumpFile);
+        }).catch((err) => {
+            cb(err, null);
+        });
+    }
+
     public DumpFileIfLeak(cb: (err: Error, dumpFilepath: string) => void): void {
         // avoid multi call.
         if (this.isWatched) {
@@ -23,13 +33,7 @@ export class Watcher {
         console.info("watch leak start...");
         memwatch.on("leak", (info) => {
             if (this.canDumpFile(this.lastDumpTime, this.config.dumpMinInterval)) {
-                const filepath = this.generateDumpFilepath(this.config.appName, this.config.dumpDir);
-                const result = Heapdump.dumpFile(filepath);
-                result.then((dumpFile) => {
-                    cb(null, dumpFile);
-                }).catch((err) => {
-                    cb(err, null);
-                });
+                this.DumpFile(cb);
             }
         });
     }
