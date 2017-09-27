@@ -52,7 +52,7 @@ describe("#createDirIfNotExists", () => {
     });
 
     it("should throw error if path is invalid", (done) => {
-        const invalidDir = `aa--asdf/asdfinvalidpath\/adf-/d.\*1`;
+        const invalidDir = `%aa--asdf/asdfinvalidpath\/adf-/d.\*1`;
         const result = (Heapdump as any).createDirIfNotExists(invalidDir) as q.Promise<boolean>;
         result.then((createNew) => {
             done("should have error because path is invalid!");

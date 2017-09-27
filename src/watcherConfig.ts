@@ -1,6 +1,5 @@
-export class Config {
-    // the file name of heapdump.
-    public dumpFileName: string;
+export class WatcherConfig {
+    public appName: string;
     // minimum interval to dump file. (to avoid CPU utility issue)
     public dumpMinInterval: number;
     // the directory of saving dump file.
