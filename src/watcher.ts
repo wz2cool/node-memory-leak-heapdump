@@ -14,7 +14,7 @@ export class Watcher {
         this.isWatched = false;
     }
 
-    public WatchLeak(cb: (err: Error, dumpFilepath: string) => void): void {
+    public DumpFileIfLeak(cb: (err: Error, dumpFilepath: string) => void): void {
         // avoid multi call.
         if (this.isWatched) {
             return;
