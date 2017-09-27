@@ -1,12 +1,14 @@
 {
   "name": "memory-leak-heapdump",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "do heapdump when memory leak",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "pretest": "tsc -p tsconfig.test.json",
-    "test": "mocha dist/test --recursive"
+    "test": "mocha dist/test --recursive",
+    "posttest": "rm -r dist",
+    "prepublish": "tsc"
   },
   "repository": {
     "type": "git",
