@@ -11,7 +11,7 @@ export class Heapdump {
         const deferred = q.defer<string>();
         const wait = setTimeout(() => {
             clearTimeout(wait);
-            deferred.reject(new Error("timeout"));
+            deferred.reject(new Error("dumpFile timeout"));
         }, 1000);
 
         this.createDirIfNotExists(dir)
@@ -33,7 +33,7 @@ export class Heapdump {
         const deferred = q.defer<boolean>();
         const wait = setTimeout(() => {
             clearTimeout(wait);
-            deferred.reject(new Error("timeout"));
+            deferred.reject(new Error("createDirIfNotExists timeout"));
         }, 1000);
 
         if (fs.existsSync(dirpath)) {
