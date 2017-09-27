@@ -14,16 +14,6 @@ export class Watcher {
         this.isWatched = false;
     }
 
-    public DumpFile(cb: (err: Error, dumpFilepath: string) => void): void {
-        const filepath = this.generateDumpFilepath(this.config.appName, this.config.dumpDir);
-        const result = Heapdump.dumpFile(filepath);
-        result.then((dumpFile) => {
-            cb(null, dumpFile);
-        }).catch((err) => {
-            cb(err, null);
-        });
-    }
-
     public DumpFileIfLeak(cb: (err: Error, dumpFilepath: string) => void): void {
         // avoid multi call.
         if (this.isWatched) {
@@ -72,5 +62,15 @@ export class Watcher {
         const filename = appName + "-" + new Date() + ".heapsnapshot";
         const filepath = path.join(dumpDir, filename);
         return filepath;
+    }
+
+    private DumpFile(cb: (err: Error, dumpFilepath: string) => void): void {
+        const filepath = this.generateDumpFilepath(this.config.appName, this.config.dumpDir);
+        const result = Heapdump.dumpFile(filepath);
+        result.then((dumpFile) => {
+            cb(null, dumpFile);
+        }).catch((err) => {
+            cb(err, null);
+        });
     }
 }

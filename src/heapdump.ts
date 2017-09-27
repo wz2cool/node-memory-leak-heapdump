@@ -9,11 +9,6 @@ export class Heapdump {
     public static dumpFile(filepath: string): Promise<string> {
         const dir = path.dirname(filepath);
         const deferred = q.defer<string>();
-        const wait = setTimeout(() => {
-            clearTimeout(wait);
-            deferred.reject(new Error("dumpFile timeout"));
-        }, 1000);
-
         this.createDirIfNotExists(dir)
             .then((createNew) => {
                 heapdump.writeSnapshot(filepath, (err) => {

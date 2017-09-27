@@ -52,7 +52,7 @@ describe("#createDirIfNotExists", () => {
     });
 
     it("should throw error if path is invalid", (done) => {
-        const invalidDir = `%aa--asdf/asdfinvalidpath\/adf-/d.\*1`;
+        const invalidDir = `/\%aa--asdfasdfinvalidpath\/adf-/d.\*1`;
         const result = (Heapdump as any).createDirIfNotExists(invalidDir) as q.Promise<boolean>;
         result.then((createNew) => {
             done("should have error because path is invalid!");
@@ -61,4 +61,13 @@ describe("#createDirIfNotExists", () => {
             done();
         });
     });
+});
+
+describe("#dumpFile", () => {
+    const dumpDir = path.join(os.tmpdir(), "heapdumpTest");
+    const filepath = path.join(dumpDir, "test.heapsnapshot");
+    console.log("dumpDir:", dumpDir);
+    console.log("filepath", filepath);
+
+ 
 });
