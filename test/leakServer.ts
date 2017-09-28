@@ -19,6 +19,7 @@ watcher.dumpFileIfLeak((err, dumpFile) => {
 });
 
 function leakfun(): void {
+    // empty fun;
 }
 
 const server = http.createServer((req, res) => {
