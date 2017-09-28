@@ -40,7 +40,7 @@ import { Watcher, WatcherConfig } from "memory-leak-heapdump";
 const watcherConfig = new WatcherConfig();
 watcherConfig.appName = "targetAppName";
 watcherConfig.dumpDir = "/tmp";
-watcherConfig.dumpMinInterval = 180000; // 3 min interval.
+watcherConfig.dumpMinInterval = 18000; // 3 min interval(avoid cpu usage issue).
 
 const handleDumpFile = (err: Error, leakDumpFilepath: string): void => {
     if (util.isNullOrUndefined(err)) {
