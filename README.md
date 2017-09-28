@@ -50,6 +50,6 @@ const handleDumpFile = (err: Error, leakDumpFilepath: string): void => {
     } else {
         console.error("dumpFileIfLeak:", err);
     }
-;
+};
 watcher.dumpFileIfLeak(handleDumpFile);
 ```
