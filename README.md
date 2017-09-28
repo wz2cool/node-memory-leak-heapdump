@@ -6,7 +6,7 @@
 `memory-leak-heapdump` is based on `memwatch-next` and `heapdump`. It can dump heapsnapshot if memory leak.
   
 ## Install
-`npm install memory-leak-heapdump`
+`npm install memory-leak-heapdump --save`
   
 ## Usage
 ### Dump heapsnapshot
