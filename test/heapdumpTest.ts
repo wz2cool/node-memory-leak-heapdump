@@ -64,14 +64,45 @@ describe("#createDirIfNotExists", () => {
     });
 });
 
+describe("#dumpFileInternal", () => {
+    const dumpDir = path.join(os.tmpdir(), "heapdumpTest");
+    const filepath = path.join(dumpDir, "test.heapsnapshot");
+
+    it("should throw expcetion if directory not found", (done) => {
+        rimraf(dumpDir, (err) => {
+            if (fs.existsSync(dumpDir)) {
+                done("test dir should not exists");
+            }
+
+            if (util.isNullOrUndefined(err)) {
+                const result = (Heapdump as any).dumpFileInternal(filepath) as Promise<string>;
+                result.then((dumpFilepath) => {
+                    if (fs.existsSync(dumpFilepath)) {
+                        done("should not have file");
+                    } else {
+                        done();
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                    done();
+                });
+            } else {
+                done(err);
+            }
+        });
+    });
+});
+
 describe("#dumpFile", () => {
     const dumpDir = path.join(os.tmpdir(), "heapdumpTest");
     const filepath = path.join(dumpDir, "test.heapsnapshot");
-    console.log("dumpDir:", dumpDir);
-    console.log("filepath", filepath);
 
-    it("should have dump file", (done) => {
+    it("should have dump file and create directory if not exists", (done) => {
         rimraf(dumpDir, (err) => {
+            if (fs.existsSync(dumpDir)) {
+                done("test dir should not exists");
+            }
+
             if (util.isNullOrUndefined(err)) {
                 Heapdump.dumpFile(filepath)
                     .then((dumpFilepath) => {

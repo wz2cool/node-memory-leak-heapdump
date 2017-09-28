@@ -11,13 +11,9 @@ export class Heapdump {
         const deferred = q.defer<string>();
         this.createDirIfNotExists(dir)
             .then((createNew) => {
-                heapdump.writeSnapshot(filepath, (err) => {
-                    if (util.isNullOrUndefined(err)) {
-                        deferred.resolve(filepath);
-                    } else {
-                        deferred.reject(err);
-                    }
-                });
+                return this.dumpFileInternal(filepath);
+            }).then((dumpFilepath) => {
+                deferred.resolve(dumpFilepath);
             }).catch((err) => {
                 deferred.reject(err);
             });
@@ -44,6 +40,18 @@ export class Heapdump {
                 }
             });
         }
+        return deferred.promise;
+    }
+
+    private static dumpFileInternal(filepath: string): Promise<string> {
+        const deferred = q.defer<string>();
+        heapdump.writeSnapshot(filepath, (err) => {
+            if (util.isNullOrUndefined(err)) {
+                deferred.resolve(filepath);
+            } else {
+                deferred.reject(err);
+            }
+        });
         return deferred.promise;
     }
 }

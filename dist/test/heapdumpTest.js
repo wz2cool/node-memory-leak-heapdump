@@ -63,13 +63,42 @@ describe("#createDirIfNotExists", function () {
         });
     });
 });
+describe("#dumpFileInternal", function () {
+    var dumpDir = path.join(os.tmpdir(), "heapdumpTest");
+    var filepath = path.join(dumpDir, "test.heapsnapshot");
+    it("should throw expcetion if directory not found", function (done) {
+        rimraf(dumpDir, function (err) {
+            if (fs.existsSync(dumpDir)) {
+                done("test dir should not exists");
+            }
+            if (util.isNullOrUndefined(err)) {
+                var result = heapdump_1.Heapdump.dumpFileInternal(filepath);
+                result.then(function (dumpFilepath) {
+                    if (fs.existsSync(dumpFilepath)) {
+                        done("should not have file");
+                    }
+                    else {
+                        done();
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                    done();
+                });
+            }
+            else {
+                done(err);
+            }
+        });
+    });
+});
 describe("#dumpFile", function () {
     var dumpDir = path.join(os.tmpdir(), "heapdumpTest");
     var filepath = path.join(dumpDir, "test.heapsnapshot");
-    console.log("dumpDir:", dumpDir);
-    console.log("filepath", filepath);
-    it("should have dump file", function (done) {
+    it("should have dump file and create directory if not exists", function (done) {
         rimraf(dumpDir, function (err) {
+            if (fs.existsSync(dumpDir)) {
+                done("test dir should not exists");
+            }
             if (util.isNullOrUndefined(err)) {
                 heapdump_1.Heapdump.dumpFile(filepath)
                     .then(function (dumpFilepath) {

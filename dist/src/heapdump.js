@@ -10,18 +10,14 @@ var Heapdump = /** @class */ (function () {
     function Heapdump() {
     }
     Heapdump.dumpFile = function (filepath) {
+        var _this = this;
         var dir = path.dirname(filepath);
         var deferred = q.defer();
         this.createDirIfNotExists(dir)
             .then(function (createNew) {
-            heapdump.writeSnapshot(filepath, function (err) {
-                if (util.isNullOrUndefined(err)) {
-                    deferred.resolve(filepath);
-                }
-                else {
-                    deferred.reject(err);
-                }
-            });
+            return _this.dumpFileInternal(filepath);
+        }).then(function (dumpFilepath) {
+            deferred.resolve(dumpFilepath);
         }).catch(function (err) {
             deferred.reject(err);
         });
@@ -48,6 +44,18 @@ var Heapdump = /** @class */ (function () {
                 }
             });
         }
+        return deferred.promise;
+    };
+    Heapdump.dumpFileInternal = function (filepath) {
+        var deferred = q.defer();
+        heapdump.writeSnapshot(filepath, function (err) {
+            if (util.isNullOrUndefined(err)) {
+                deferred.resolve(filepath);
+            }
+            else {
+                deferred.reject(err);
+            }
+        });
         return deferred.promise;
     };
     return Heapdump;
