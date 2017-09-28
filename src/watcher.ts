@@ -1,3 +1,4 @@
+import * as dateFormat from "dateformat";
 import * as memwatch from "memwatch-next";
 import * as os from "os";
 import * as path from "path";
@@ -65,11 +66,7 @@ export class Watcher {
     }
 
     private generateDumpFilepath(appName: string, dumpDir: string): string {
-        if (util.isNullOrUndefined(dumpDir)) {
-            throw new Error("dumpDir cannot be empty!");
-        }
-
-        const filename = appName + "-" + new Date() + ".heapsnapshot";
+        const filename = appName + "-" + dateFormat((new Date()), "yyyymmddHHMMss") + ".heapsnapshot";
         const filepath = path.join(dumpDir, filename);
         return filepath;
     }

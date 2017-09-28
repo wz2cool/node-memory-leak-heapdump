@@ -7,6 +7,7 @@
   "scripts": {
     "pretest": "tsc -p tsconfig.test.json",
     "test": "nyc mocha dist/test --recursive",
+    "posttest": "rm -r .nyc_output",
     "prepublish": "tsc",
     "cover": "tsc -p tsconfig.test.json && istanbul cover ./node_modules/mocha/bin/_mocha dist/test --recursive",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/wz2cool/memory-leak-heapdump#readme",
   "dependencies": {
+    "dateformat": "^3.0.2",
     "heapdump": "^0.3.9",
     "memwatch-next": "^0.3.0",
     "mkdirp": "^0.5.1",
@@ -30,6 +32,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.0.4",
+    "@types/dateformat": "^1.0.1",
     "@types/memwatch-next": "^0.3.1",
     "@types/mkdirp": "^0.5.1",
     "@types/mocha": "^2.2.43",

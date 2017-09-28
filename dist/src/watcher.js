@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var dateFormat = require("dateformat");
 var memwatch = require("memwatch-next");
 var os = require("os");
 var path = require("path");
@@ -58,10 +59,7 @@ var Watcher = /** @class */ (function () {
         return diff < dumpMinInterval;
     };
     Watcher.prototype.generateDumpFilepath = function (appName, dumpDir) {
-        if (util.isNullOrUndefined(dumpDir)) {
-            throw new Error("dumpDir cannot be empty!");
-        }
-        var filename = appName + "-" + new Date() + ".heapsnapshot";
+        var filename = appName + "-" + dateFormat((new Date()), "yyyymmddHHMMss") + ".heapsnapshot";
         var filepath = path.join(dumpDir, filename);
         return filepath;
     };
