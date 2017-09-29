@@ -44,9 +44,7 @@ watcherConfig.dumpMinInterval = 18000; // 3 min interval(avoid cpu usage issue).
 
 const handleDumpFile = (err: Error, leakDumpFilepath: string): void => {
     if (util.isNullOrUndefined(err)) {
-        if (!util.isNullOrUndefined(leakDumpFilepath)) {
-                console.info("dump file path: ", leakDumpFilepath);
-        }
+        console.info("dump file path: ", leakDumpFilepath);
     } else {
         console.error("dumpFileIfLeak:", err);
     }
