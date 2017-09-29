@@ -65,7 +65,7 @@ describe(".Heapdump", () => {
         });
     });
 
-    describe("#dumpFileInternal", () => {
+    describe("#snapshotFileInternal", () => {
         const dumpDir = path.join(os.tmpdir(), "heapdumpTest");
         const filepath = path.join(dumpDir, "test.heapsnapshot");
 
@@ -76,7 +76,7 @@ describe(".Heapdump", () => {
                 }
 
                 if (util.isNullOrUndefined(err)) {
-                    const result = (Heapdump as any).dumpFileInternal(filepath) as Promise<string>;
+                    const result = (Heapdump as any).snapshotInternal(filepath) as Promise<string>;
                     result.then((dumpFilepath) => {
                         if (fs.existsSync(dumpFilepath)) {
                             done("should not have file");
@@ -94,7 +94,7 @@ describe(".Heapdump", () => {
         });
     });
 
-    describe("#dumpFile", () => {
+    describe("#snapshotFile", () => {
         const dumpDir = path.join(os.tmpdir(), "heapdumpTest");
         const filepath = path.join(dumpDir, "test.heapsnapshot");
 
@@ -105,7 +105,7 @@ describe(".Heapdump", () => {
                 }
 
                 if (util.isNullOrUndefined(err)) {
-                    Heapdump.dumpFile(filepath)
+                    Heapdump.snapshot(filepath)
                         .then((dumpFilepath) => {
                             if (fs.existsSync(dumpFilepath)) {
                                 done();

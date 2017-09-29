@@ -6,11 +6,11 @@ import { Watcher, WatcherConfig } from "../src/index";
 
 const config = new WatcherConfig();
 config.appName = "leakServer";
-config.dumpDir = path.join(os.homedir(), "leakServer");
-config.dumpMinInterval = 10000; // 10s;
+config.snapshotDir = path.join(os.homedir(), "leakServer");
+config.snapshotMinInterval = 10000; // 10s;
 
 const watcher = new Watcher(config);
-watcher.dumpFileIfLeak((err, dumpFile) => {
+watcher.snapshotIfLeak((err, dumpFile) => {
     if (err) {
         console.error(err);
     } else {

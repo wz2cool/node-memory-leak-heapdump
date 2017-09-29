@@ -6,14 +6,14 @@ import * as q from "q";
 import * as util from "util";
 
 export class Heapdump {
-    public static dumpFile(filepath: string): Promise<string> {
+    public static snapshot(filepath: string): Promise<string> {
         const dir = path.dirname(filepath);
         const deferred = q.defer<string>();
         this.createDirIfNotExists(dir)
             .then((createNew) => {
-                return this.dumpFileInternal(filepath);
-            }).then((dumpFilepath) => {
-                deferred.resolve(dumpFilepath);
+                return this.snapshotInternal(filepath);
+            }).then((snapshotFilepath) => {
+                deferred.resolve(snapshotFilepath);
             }).catch((err) => {
                 deferred.reject(err);
             });
@@ -43,7 +43,7 @@ export class Heapdump {
         return deferred.promise;
     }
 
-    private static dumpFileInternal(filepath: string): Promise<string> {
+    private static snapshotInternal(filepath: string): Promise<string> {
         const deferred = q.defer<string>();
         heapdump.writeSnapshot(filepath, (err) => {
             if (util.isNullOrUndefined(err)) {

@@ -1,6 +1,6 @@
 {
   "name": "memory-leak-heapdump",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "do heapdump when memory leak",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

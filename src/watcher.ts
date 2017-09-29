@@ -9,13 +9,13 @@ import { WatcherConfig } from "./watcherConfig";
 export class Watcher {
     private readonly config: WatcherConfig;
     private isWatched: boolean;
-    private lastDumpTime: Date;
+    private lastSnapshotTime: Date;
     constructor(config: WatcherConfig) {
         this.config = this.initConfig(config);
         this.isWatched = false;
     }
 
-    public dumpFileIfLeak(cb: (err: Error, dumpFilepath: string) => void): void {
+    public snapshotIfLeak(cb: (err: Error, snapshotFilepath: string) => void): void {
         // avoid multi call.
         if (this.isWatched) {
             return;
@@ -23,17 +23,17 @@ export class Watcher {
         this.isWatched = true;
         console.info("watch leak start...");
         memwatch.on("leak", (info) => {
-            if (this.canDumpFile(this.lastDumpTime, this.config.dumpMinInterval)) {
-                this.dumpFile(cb);
+            if (this.canSnapshot(this.lastSnapshotTime, this.config.snapshotMinInterval)) {
+                this.snapshot(cb);
             }
         });
     }
 
-    private dumpFile(cb: (err: Error, dumpFilepath: string) => void): void {
-        const filepath = this.generateDumpFilepath(this.config.appName, this.config.dumpDir);
-        const result = Heapdump.dumpFile(filepath);
-        result.then((dumpFile) => {
-            cb(null, dumpFile);
+    private snapshot(cb: (err: Error, snapshotFilepath: string) => void): void {
+        const filepath = this.generateSnapshotFilepath(this.config.appName, this.config.snapshotDir);
+        const result = Heapdump.snapshot(filepath);
+        result.then((snapshotFile) => {
+            cb(null, snapshotFile);
         }).catch((err) => {
             cb(err, null);
         });
@@ -44,11 +44,11 @@ export class Watcher {
         if (util.isNullOrUndefined(useConfig)) {
             useConfig = new WatcherConfig();
         }
-        if (util.isNullOrUndefined(useConfig.dumpDir)) {
-            useConfig.dumpDir = os.tmpdir();
+        if (util.isNullOrUndefined(useConfig.snapshotDir)) {
+            useConfig.snapshotDir = os.tmpdir();
         }
-        if (util.isNullOrUndefined(useConfig.dumpMinInterval)) {
-            useConfig.dumpMinInterval = 1000 * 60 * 5;
+        if (util.isNullOrUndefined(useConfig.snapshotMinInterval)) {
+            useConfig.snapshotMinInterval = 1000 * 60 * 5;
         }
         if (util.isNullOrUndefined(useConfig.appName)) {
             useConfig.appName = process.pid.toString();
@@ -56,18 +56,18 @@ export class Watcher {
         return useConfig;
     }
 
-    private canDumpFile(lastDumpTime: Date, dumpMinInterval: number): boolean {
-        if (util.isNullOrUndefined(lastDumpTime)) {
+    private canSnapshot(lastSnapshotTime: Date, snapshotMinInterval: number): boolean {
+        if (util.isNullOrUndefined(lastSnapshotTime)) {
             return true;
         }
 
-        const diff = Math.abs(new Date().getTime() - lastDumpTime.getTime());
-        return diff < dumpMinInterval;
+        const diff = Math.abs(new Date().getTime() - lastSnapshotTime.getTime());
+        return diff < snapshotMinInterval;
     }
 
-    private generateDumpFilepath(appName: string, dumpDir: string): string {
+    private generateSnapshotFilepath(appName: string, snapshotDir: string): string {
         const filename = appName + "-" + dateFormat((new Date()), "yyyymmddHHMMss") + ".heapsnapshot";
-        const filepath = path.join(dumpDir, filename);
+        const filepath = path.join(snapshotDir, filename);
         return filepath;
     }
 }

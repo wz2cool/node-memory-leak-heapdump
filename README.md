@@ -9,13 +9,13 @@
 `npm install memory-leak-heapdump --save`
   
 ## Usage
-### Dump heapsnapshot
+### snapshot
 - js
 ```js
 var heapdump = require('memory-leak-heapdump').Heapdump;
-heapdump.dumpFile('/tmp/test.heapsnapshot')
-    .then(function (dumpFilepath) {
-        console.log('dumpFilepath: ', dumpFilepath);
+heapdump.snapshot('/tmp/test.heapsnapshot')
+    .then(function (filepath) {
+        console.log('snapshot file path: ', filepath);
     })
     .catch(function (err) {
         console.error(err);
@@ -24,30 +24,30 @@ heapdump.dumpFile('/tmp/test.heapsnapshot')
 - ts
 ```js
 import { Heapdump } from "memory-leak-heapdump";
-Heapdump.dumpFile("/tmp/test.heapsnapshot")
-    .then((dumpFilepath) => {
-        console.log('dumpFilepath: ', dumpFilepath);
+Heapdump.snapshot("/tmp/test.heapsnapshot")
+    .then((filepath) => {
+        console.log("snapshot file path: ", filepath);
     })
     .catch((err) => {
         console.error(err);
     });
 ```
 
-### watch leak and dump file
+### Watch leak and snapshot
 - ts
 ```js
 import { Watcher, WatcherConfig } from "memory-leak-heapdump";
 const watcherConfig = new WatcherConfig();
 watcherConfig.appName = "targetAppName";
-watcherConfig.dumpDir = "/tmp";
-watcherConfig.dumpMinInterval = 18000; // 3 min interval(avoid cpu usage issue).
+watcherConfig.snapshotDir = "/tmp";
+watcherConfig.snapshotMinInterval = 18000; // 3 min interval(avoid cpu usage issue).
 
-const handleDumpFile = (err: Error, leakDumpFilepath: string): void => {
+const handleSnapshot = (err: Error, filepath: string): void => {
     if (util.isNullOrUndefined(err)) {
-        console.info("dump file path: ", leakDumpFilepath);
+        console.info("snapshot file path: ", filepath);
     } else {
-        console.error("dumpFileIfLeak:", err);
+        console.error("handleSnapshot: ", err);
     }
 };
-watcher.dumpFileIfLeak(handleDumpFile);
+watcher.snapshotIfLeak(handleSnapshot);
 ```

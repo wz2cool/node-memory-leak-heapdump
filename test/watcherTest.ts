@@ -14,18 +14,18 @@ describe(".watcher", () => {
             if (util.isNullOrUndefined(config)) {
                 assert.fail("default config file can not be empty!");
             } else {
-                expect(os.tmpdir()).to.be.equal(config.dumpDir);
-                expect(1000 * 60 * 5).to.be.equal(config.dumpMinInterval);
+                expect(os.tmpdir()).to.be.equal(config.snapshotDir);
+                expect(1000 * 60 * 5).to.be.equal(config.snapshotMinInterval);
                 console.log("pid: ", process.pid.toString());
                 expect(process.pid.toString()).to.be.equal(config.appName);
             }
         });
     });
 
-    describe("#generateDumpFilepath", () => {
+    describe("#generateSnapshotFilepath", () => {
         it("should get name", () => {
             const watcher = new Watcher(null) as any;
-            const generateFilepath = watcher.generateDumpFilepath("testAppName", "testDir");
+            const generateFilepath = watcher.generateSnapshotFilepath("testAppName", "testDir");
             console.log("generateFilepath: ", generateFilepath);
             const patten = new RegExp(/^testDir(\\|\/)testAppName-\d+\.heapsnapshot$/);
             const testResult = patten.test(generateFilepath);
@@ -33,33 +33,33 @@ describe(".watcher", () => {
         });
     });
 
-    describe("#canDumpFile", () => {
+    describe("#canSnapshot", () => {
         it("should can dump file if last dump time is null", () => {
             const watcher = new Watcher(null) as any;
-            const canDump = watcher.canDumpFile(null, 1000);
+            const canDump = watcher.canSnapshot(null, 1000);
             expect(true).to.be.equals(canDump);
         });
 
         it("should can dump file if diff interval less than min interval", () => {
             const watcher = new Watcher(null) as any;
-            const canDump = watcher.canDumpFile(new Date(), 1000);
+            const canDump = watcher.canSnapshot(new Date(), 1000);
             expect(true).to.be.equals(canDump);
         });
 
         it("should not dump file if diff interval geater than min interval", () => {
             const watcher = new Watcher(null) as any;
-            const canDump = watcher.canDumpFile(new Date(2000, 9, 1), 1000);
+            const canDump = watcher.canSnapshot(new Date(2000, 9, 1), 1000);
             expect(false).to.be.equals(canDump);
         });
     });
 
-    describe("#dumpFile", () => {
+    describe("#snapshot", () => {
         const config = new WatcherConfig();
         config.appName = "testApp";
-        config.dumpDir = path.join(os.tmpdir(), "test");
-        config.dumpMinInterval = 10000;
+        config.snapshotDir = path.join(os.tmpdir(), "test");
+        config.snapshotMinInterval = 10000;
         it("should have dump file", (done) => {
-            rimraf(config.dumpDir, (error) => {
+            rimraf(config.snapshotDir, (error) => {
                 if (util.isNullOrUndefined(error)) {
                     const watcher = new Watcher(config) as any;
                     const cb = (err: Error, dumpFilepath: string): void => {
@@ -74,7 +74,7 @@ describe(".watcher", () => {
                             }
                         }
                     };
-                    watcher.dumpFile(cb);
+                    watcher.snapshot(cb);
                 } else {
                     done(error);
                 }
